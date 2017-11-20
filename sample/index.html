@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OpenVV-HTML5: Sample Page One</title>
+<style type="text/css">
+body{
+	min-height: 1500px;
+}
+.box{
+	border: 1px solid green;
+	width: 350px;
+	height: 350px;
+}
+
+
+
+</style>
+  
+</head>  
+<body>
+<h1>Sample of OpenVV-HTML5</h1>
+
+
+<div id="videoWrap" class="box">
+VID HERE
+<iframe src='https://preview-players.brightcove.net/v2/accounts/4523394953001/players/SJlLuGsOkM/preview/embeds/default/master/index.html?preview_active' allowfullscreen frameborder=0></iframe>
+</div>
+
+<script type="text/javascript"
+ src="../ovv-lib/openvv.js"></script>
+
+<script type="text/javascript">
+// Create new instance of OpenVV and store element to measure
+var openvv = new OpenVV(), element = document.getElementById('videoWrap');
+
+openvv
+  .measureElement(element)
+  .onViewableStart(function(args) {
+    // element has started being viewable according to the default threshold of 50% in view
+    console.log('Viewable Start', new Date().toString(), args);
+  })
+  .onViewableStop(function(args) {
+    // element has stopped being viewable as it has dropped below the default 50% in view threshold
+    console.log('Viewable Stop', new Date().toString(), args);
+  })
+  .onViewableChange(function(args){
+    // element's in view percentage has changed. Will be called whenever element's in view percentage changes
+    console.log('Viewable Change', new Date().toString(), args);
+  })
+  .onViewableComplete(function(args) {
+    // element has been in view above the viewable threshold for atleast 2 continuous seconds
+    console.log('Viewable Complete', new Date().toString(), args);
+  })
+  .onUnmeasureable(function() {
+    // no measurement techniques were found that are capable of measuring in the current enviroment (browser + iframe context)
+    console.log('Unmeasureable');
+  });
+</script>
+
+
+</body>
+</html>
