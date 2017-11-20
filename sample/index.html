@@ -11,8 +11,6 @@ body{
 }
 .box{
 	border: 1px solid green;
-	width: 350px;
-	height: 350px;
 }
 
 
@@ -25,8 +23,13 @@ body{
 
 
 <div id="videoWrap" class="box">
-VID HERE
-<iframe src='https://preview-players.brightcove.net/v2/accounts/4523394953001/players/SJlLuGsOkM/preview/embeds/default/master/index.html?preview_active' allowfullscreen frameborder=0></iframe>
+<video data-account="4523394953001" 
+data-player="SJlLuGsOkM" 
+data-embed="default" 
+data-application-id 
+class="video-js" 
+controls></video>
+<script src="//players.brightcove.net/4523394953001/SJlLuGsOkM_default/index.min.js"></script>
 </div>
 
 <script type="text/javascript"
