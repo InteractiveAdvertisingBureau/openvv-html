@@ -161,7 +161,7 @@ export default class MeasurementExecutor {
    * @return {BaseTechnique} instance of technique provided
    */
   _instantiateTechnique(technique) {
-    return new technique(element, this._strategy.criteria);
+    return new technique(this._element, this._strategy.criteria);
   }
 
   /**
