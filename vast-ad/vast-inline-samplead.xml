@@ -24,11 +24,11 @@
                   <UniversalAdId idRegistry="Ad-ID" idValue="8465">8465</UniversalAdId>
                     <Linear>
                         <TrackingEvents>
-                           <Tracking event="start" offset="00:30:23">http://myTrackingURL/start</Tracking>
-                            <Tracking event="firstQuartile">http://myTrackingURL/firstQuartile</Tracking>
-                            <Tracking event="midpoint">http://myTrackingURL/midpoint</Tracking>
-                            <Tracking event="thirdQuartile">http://myTrackingURL/thirdQuartile</Tracking>
-                            <Tracking event="complete">http://myTrackingURL/complete</Tracking>
+                           <Tracking event="start" offset="00:30:23">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?start</Tracking>
+                            <Tracking event="firstQuartile">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?firstQuartile</Tracking>
+                            <Tracking event="midpoint">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?midpoint</Tracking>
+                            <Tracking event="thirdQuartile">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?thirdQuartile</Tracking>
+                            <Tracking event="complete">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?complete</Tracking>
                         </TrackingEvents>
                         <Duration>00:00:16</Duration>
                         <MediaFiles>
