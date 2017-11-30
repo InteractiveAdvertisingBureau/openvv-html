@@ -20,7 +20,7 @@
                   <UniversalAdId idRegistry="Ad-ID" idValue="8465">8465</UniversalAdId>
                     <Linear>
                         <TrackingEvents>
-                           <Tracking event="start" offset="00:02:23">http://myTrackingURL/start</Tracking>
+                           <Tracking event="start" offset="00:09:23">http://myTrackingURL/start</Tracking>
                             <Tracking event="firstQuartile">http://myTrackingURL/firstQuartile</Tracking>
                             <Tracking event="midpoint">http://myTrackingURL/midpoint</Tracking>
                             <Tracking event="thirdQuartile">http://myTrackingURL/thirdQuartile</Tracking>
