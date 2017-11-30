@@ -12,7 +12,11 @@
             </Pricing>
 
             <AdTitle>Inline Simple Ad</AdTitle>
-			<AdVerifications></AdVerifications>
+			<AdVerifications>
+				<JavaScriptResource>
+				<![CDATA[https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/adOvvScript.js]]>
+				</JavaScriptResource>
+			</AdVerifications>
 			<Advertiser>IAB Sample Company</Advertiser>
 			<Category />
             <Creatives>
