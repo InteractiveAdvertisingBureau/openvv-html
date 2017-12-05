@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>OpenVV-HTML5: Sample Page One</title>
+<link href="//players.brightcove.net/videojs-overlay/lib/videojs-overlay.css" rel='stylesheet'>
+            
 <style type="text/css">
 body{
 	min-height: 1500px;
@@ -13,6 +15,10 @@ body{
 	border: 1px solid green;
 }
 
+  .video-js {
+	height: 344px;
+	width: 610px;
+  }
 
 
 </style>
@@ -22,9 +28,10 @@ body{
 <h1>Sample of OpenVV-HTML5</h1>
 
 
-<div id="videoWrap" class="box">
+<div id="videoWrap" class="box" >
 
-<video data-video-id="5652998937001" 
+<video id="myOvvVideo"
+data-video-id="5652998937001" 
 data-account="4523394953001" 
 data-player="SJlLuGsOkM" 
 data-embed="default" 
@@ -68,6 +75,23 @@ openvv
   });
 </script>
 
+<script src="//players.brightcove.net/videojs-overlay/lib/videojs-overlay.js"></script>
 
+<script type="text/javascript">
+  videojs("myOvvVideo").on('loadedmetadata', function() {
+	var player = this;
+	player.play();
+	var overlayConfig = {
+		overlays: [{
+		  content: 'This event-triggered overlay message appears when the video is playing',
+		  start: 'play',
+		  end: 'pause'
+		}]
+	  };
+	
+	player.overlay(overlayConfig);
+  
+  });
+</script>
 </body>
 </html>
