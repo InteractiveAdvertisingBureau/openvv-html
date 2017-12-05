@@ -5,7 +5,7 @@
 
             <Error>http://myErrorURL/error</Error>
 
-            <Impression id="Impression-ID">http://myTrackingURL/impression</Impression>
+            <Impression id="Impression-ID">https://interactiveadvertisingbureau.github.io/openvv-html/vast-ad/trackingTarget.txt?impression</Impression>
 
             <Pricing model="cpm" currency="USD">
                 <![CDATA[ 25.00 ]]>
