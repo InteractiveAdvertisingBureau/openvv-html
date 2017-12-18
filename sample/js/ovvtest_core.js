@@ -46,19 +46,15 @@
 	}
 		
 	var valOutput = [
-	{ key: 'adHeight', type: 'calc', prop : 'objBottom - objTop'},
-	{ key: 'adWidth', type: 'calc', prop : 'objRight - objLeft'},
-	{ key: 'viewportHeight', type: 'val', prop : 'clientHeight'},
-	{ key: 'viewportWidth', type: 'val', prop : 'clientWidth'},
-	{ key: 'adTop', type: 'val', prop : 'objTop'},
-	{ key: 'adLeft', type: 'val', prop : 'objLeft'},
-	{ key: 'adRight', type: 'val', prop : 'objRight'},
-	{ key: 'adBottom', type: 'val', prop : 'objBottom'},
-	{ key: 'inIframe', type: 'val', prop : 'inIframe'},
+	{ key: 'adHeight', type: 'val', prop : 'elementHeight'},
+	{ key: 'adWidth', type: 'val', prop : 'elementWidth'},
+	{ key: 'viewportHeight', type: 'val', prop : 'viewportHeight'},
+	{ key: 'viewportWidth', type: 'val', prop : 'viewportWidth'},
+	{ key: 'inIframe', type: 'val', prop : 'iframeContext'},
 	{ key: 'windowActive', type: 'val', prop : 'focus'},
 	{ key: 'measureTechnique', type: 'val', prop : 'technique'},
-	{ key: 'viewabilityState', type: 'val', prop : 'viewabilityState'},
-	{ key: 'percentViewable', type: 'val', prop : 'percentViewable', format: '{0}%'}
+	{ key: 'viewabilityState', type: 'val', prop : 'viewable'},
+	{ key: 'percentViewable', type: 'calc', prop : 'percentViewable * 100', format: '{0}%'}
 	];
 	
 	/**
@@ -99,7 +95,7 @@
 	// Options
 	var opts = {
 		debug: true,
-		adId : 'my_ovv_test_ad_id', // default ID compiled into test ad swf
+		adElem : 'videoWrap', // default ID compiled into test ad swf
 		logListener: noop,
 		displayOvvValues: true,
 		valuesOutputElem: null,
@@ -331,9 +327,24 @@
 				return;
 			}
 			val = '';
+			var numVal = parseFloat(parts[2]);
+			if(isNaN(numVal)){
+				numVal = obj[parts[2]];
+			}
+			
 			if(parts[1] == '-'){
-				val = obj[parts[0]] - obj[parts[2]]; 
-			}				
+				val = obj[parts[0]] - numVal; 
+			}
+			else if(parts[1] == '*'){
+				val = Math.round(obj[parts[0]] * numVal);
+			}
+			else if(parts[1] == '/'){
+				val = obj[parts[0]] / numVal; 
+			}
+			else if(parts[1] == '+'){
+				val = obj[parts[0]] + numVal; 
+			}
+
 		}
 		
 		if(val && valKey.format != null){
@@ -471,28 +482,51 @@
 	* You have 60 seconds for ovv to become injected into the page
 	* for this method to function.
 	*/
-	function registerOvvListeners(ad_id){
+	function registerOvvListeners(adElem){
 		var ovv;
-		var ad_id = ad_id || opts.adId;
-		
+		var adElem = adElem || opts.adElem;
+		var coreObj = window['ovvtest'];
+		// Create new instance of OpenVV and store element to measure
+		var openvv = coreObj.openvv = new OpenVV();
+		var element = document.getElementById(adElem);
+
+		openvv
+		  .measureElement(element)
+		  .onViewableStart(function(args) {
+			// element has started being viewable according to the default threshold of 50% in view
+			args.eventName = 'viewableStart'
+			handleOvvEvent(args);
+			console.log('Viewable Start', new Date().toString(), args);
+		  })
+		  .onViewableStop(function(args) {
+			// element has stopped being viewable as it has dropped below the default 50% in view threshold
+			args.eventName = 'viewableStop'
+			handleOvvEvent(args);
+			console.log('Viewable Stop', new Date().toString(), args);
+		  })
+		  .onViewableChange(function(args){
+			// element's in view percentage has changed. Will be called whenever element's in view percentage changes
+			args.eventName = 'viewableChange'
+			handleOvvEvent(args);
+			console.log('Viewable Change', new Date().toString(), args);
+		  })
+		  .onViewableComplete(function(args) {
+			// element has been in view above the viewable threshold for atleast 2 continuous seconds
+			args.eventName = 'viewableComplete'
+			handleOvvEvent(args);
+			console.log('Viewable Complete', new Date().toString(), args);
+		  })
+		  .onUnmeasureable(function() {
+			// no measurement techniques were found that are capable of measuring in the current enviroment (browser + iframe context)
+			args.eventName = 'unmeasureable'
+			handleOvvEvent(args);
+			console.log('Unmeasureable');
+		  });
+
+  
 		if(regTimer !== 0){
 			clearTimeout(regTimer);
 			regTimer = 0;
-		}
-		
-		var ovvReady = (window['$ovv'] != null);
-		if(ovvReady && $ovv.DEBUG_LOAD){
-			
-		}
-		
-		if(!ovvReady){
-			if(++attachRetries < 60000){
-				regTimer = setTimeout(function(){
-					registerOvvListeners();
-				}, 300);
-			}
-			
-			return;
 		}
 		
 		var eventNames = [
@@ -501,42 +535,11 @@
 			'AdVideoComplete'
 		];
 		
-		// list of OVV events. We must listen to OVVLog in order to get up to date viewability information
-		var ovvEvents = ['OVVReady', 'OVVImpression', 'OVVImpressionUnmeasurable', 'OVVLog'];
-		
-		ovv = window['$ovv'];
-		ovv.subscribe(ovvEvents, ad_id, function(id, eventData){
-			if(eventData.ovvArgs != null){
-				handleOvvEvent(eventData, eventData.ovvArgs);
-			}
-			
-		}, true);
-		
-		ovv.subscribe(eventNames, ad_id, function(id, eventData){
-			if(eventData.ovvArgs != null){
-				handleVpaidEvent(eventData, eventData.ovvArgs);
-			}
-			
-		}, true);
-		
-		// Error handles
-		ovv.subscribe(['AdError', 'OVVError'], ad_id, function(id, eventData, more){
-			handleAdError(id, eventData, more);
-		}, true);
-		
 		
 		// place the test ad id in the ovvtest object
 		if(win['ovvtest'] != null){
-			win['ovvtest'].ad_id = ad_id;
+			win['ovvtest'].adElem = adElem;
 		}
-		
-		setTimeout(function(){
-			console.log('=========================================')
-			console.log(ovv.getAds());
-			var ads = ovv.getAds();
-			console.log(ads['my_ovv_test_ad_id'].checkViewability());
-		}, 1000);
-		
 	}
 	
 	
@@ -547,17 +550,10 @@
 		}		
 	}
 	
-	function updateViewEngine(eventObj, data){
+	function updateViewEngine(data){
 		var eng = ovvtest.viewEngine;
-		var eventName, ovvtime;
-		
-		if(typeof(eventObj) === 'string'){
-			eventName = eventObj;
-		}
-		else{
-			eventName = eventObj.eventName;
-			ovvtime = eventObj.eventTime;
-		}
+		var eventName = data.eventName,
+			ovvtime = data.eventTime || Date.now();		
 		
 		if(opts.enableViewEngine && eng != null){
 			eng.processEvent(eventName, ovvtime, data);
@@ -567,19 +563,11 @@
 	/**
 	* Handle OVV specific events
 	*/
-	function handleOvvEvent(eventObj, data){
-		var dataObj;
+	function handleOvvEvent(dataObj){
+		var dataObj = dataObj || {};
 		var twin, msg;
-		if(data.ovvData != null){
-			dataObj = data.ovvData;
-		}
-		else{
-			dataObj = data;
-		}
 		
-		var dataObj = data.ovvData;
-		
-		updateViewEngine(eventObj, dataObj);
+		updateViewEngine(dataObj);
 				
 		// ovvtest.log(eventObj, data);
 		if(opts.displayOvvValues){
@@ -623,12 +611,6 @@
 		console.log(eventObj);
 	}
 	
-	function handleFlashOvvEventCall(eventObj, data){
-		console.log('[OVVTest (flash call)]');
-		console.log(eventObj);
-		handleOvvEvent(eventObj, data);		
-	}
-	
 	function initializeCore(ignoreEvents){
 		
 		if(opts.enableViewEngine && ovvtest.ViewEngine != null){
@@ -652,8 +634,6 @@
 		init: initializeCore,
 		
 		registerOvvListeners: registerOvvListeners,
-		
-		handleFlashOvvEventCall: handleFlashOvvEventCall,
 		
 		setOptions: function(options){
 			var k, v;

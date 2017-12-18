@@ -1,4 +1,3 @@
-"use strict";
 
 /*-------------------------------------------------------------------------------
 # * Copyright (c) 2015,2017, Interactive Advertising Bureau
@@ -9,6 +8,7 @@
 -------------------------------------------------------------------------------*/
 
 (function(win){
+	"use strict";
 	var ovvtest = win.ovvtest || {};
 
 	// id="ovvParamValues" 

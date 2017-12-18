@@ -1,4 +1,3 @@
-"use strict";
 
 /*-------------------------------------------------------------------------------
 # * Copyright (c) 2015,2017, Interactive Advertising Bureau
@@ -13,68 +12,21 @@
 *
 ======================================= */
 (function(win){
-	var ovvtest = win.ovvtest || {};
+	"use strict";
 
+	var ovvtest = win.ovvtest || {};
 	
-	function initFlowPlayer(elemId, options){
-		var opts = options || {}
-		
+	var noop = function(){};
+
         // http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
 		// http://video.doubleverify.com/Big-Buck-Bunny-animation-1080p-HD.mp4
-		
-		var contentVidUrl = opts.contentUrl 
-			|| 'http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4'		
-		
-		//Configuration="Api=0|Blocked=0|Unknown=1|BlockingServiceTimeout=5000|AllowIfTimeout=true|MovieLength=10|MovieURL=http://video.doubleverify.com/Big-Buck-Bunny-animation-1080p-HD.mp4|LoadOVV=false"
-window.Configuration="Api=0|Blocked=0|Unknown=1|BlockingServiceTimeout=5000|AllowIfTimeout=true|MovieLength=10|MovieURL="
-+ contentVidUrl
-+ '|LoadOVV=false|Tag=ctx=1462413&cmp=2400648&sid=ernstandyoung&plc=1234567&num=&tagformat=2&advid=1313986&adsrv=20'
-+ "&region=30&btreg=&btadsrv=&crt=&crtname=&chnl=&unit=&pid=&uid=&tagtype=video&dvtagver=6.1.src|VpaidUrl=''"
+	
+	function initPlayer(elemId, options){
 
-        var autoPlay = getParameterByName('autoPlay');
-        if (autoPlay != "") {
-            autoPlay = autoPlay.toLowerCase().indexOf( 'f' ) == -1?true:false;
-        } else {
-            autoPlay = true;
-        }
-        //var vast = $.url().param('vast');
-        //if (!vast)
-        var	vast =  "vast-example.xml";
-        console.log('vast url: ' + vast);
-        //var autoPlay = document.getElementById( 'setAutoPlay' ).value;
-        flowplayer( 'player', "flowplayer/flowplayer-3.2.18.swf", {
-            "clip":  {
-                "autoPlay": autoPlay,
-                "autoBuffering": true
-            },
-            "plugins": {
-                "controls": {
-                    "autoHide": "never"
-                },
-                "ova": {
-                    "url": "flowplayer/ova.flowplayer/ova.swf",
-                    "autoPlay": autoPlay,
-                    "ads": {
-                        "playOnce": false,
-                        "servers": [
-                            {
-                                "type": "direct",
-                                "tag": vast
-                            }
-                        ],
-                        "schedule": [
-                            {
-                                "position": "pre-roll"
-                            }
-                        ]
-                    }
-                }
-            }
-        });
     }
 	
 	
-	var initFunc = initFlowPlayer;
+	var initFunc = initPlayer;
 
 
 

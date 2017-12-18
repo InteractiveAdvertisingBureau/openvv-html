@@ -87,6 +87,7 @@
 			}
 			
 			pctVal = data.percentViewable || 0;
+			pctVal = pctVal * 100; // convert to percentage from float
 			if(data.focus === false){
 				inFocus = false;
 			}
