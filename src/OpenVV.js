@@ -1,3 +1,4 @@
+import './Helpers/Polyfills.js';
 import * as Events from './Measurement/Events';
 import InViewTimer from './Timing/InViewTimer';
 import * as Strategies from './Measurement/Strategies/';
