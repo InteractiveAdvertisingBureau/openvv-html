@@ -1,0 +1,53 @@
+body {
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+#mainContainer {
+  position: relative;
+  width: 640px;
+  height: 360px;
+}
+
+#content, #adContainer {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 640px;
+  height: 360px;
+}
+
+#contentElement {
+  width: 640px;
+  height: 360px;
+  overflow: hidden;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 24px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  background: #2c3e50;
+  border: 0;
+  cursor: pointer;
+}
+
+#remainingTimeContainer {
+  padding: 12px 0;
+  font-size: 1.4em;
+}
+
+button:focus { outline: 0; }
+
+.scrollForcer {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  margin-top: 2000px;
+}
