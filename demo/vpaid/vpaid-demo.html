@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>OpenVV VPAID Demo</title>
+  <link rel="stylesheet" type="text/css" href="vpaid-demo.css">
+  <script type="text/javascript" src="getAdTag.js"></script>
+  <script type="text/javascript" src="../../dist/openvv.js"></script>
+  <script type="text/javascript" src="../../node_modules/vpaid-generic/dist/VPAIDInterface.js"></script>
+</head>
+<body>
+  <div id="mainContainer">
+    <div id="content">
+      <video id="contentElement">
+        <source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.mp4"></source>
+        <source src="http://rmcdn.2mdn.net/Demo/vast_inspector/android.webm"></source>
+      </video>
+    </div>
+    <div id="adContainer"></div>
+  </div>
+  <button id="playButton" class="btn">Play</button>
+  <button id="skipButton" class="btn">Skip</button>
+  <button id="fullscreenButton" class="btn">Fullscreen</button>
+  <div id="remainingTimeContainer">
+    Remaining: <span id="remainingTimeDisplay"></span>
+  </div>
+  <div class="scrollForcer"></div>
+  <script type="text/javascript" src="//imasdk.googleapis.com/js/sdkloader/ima3.js"></script>
+  <script type="text/javascript" src="vpaid-demo.js"></script>
+</body>
+</html>
