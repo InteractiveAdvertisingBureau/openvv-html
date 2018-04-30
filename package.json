@@ -32,6 +32,7 @@
     "intersection-observer": "^0.3.2"
   },
   "dependencies": {
-    "vpaid-generic": "git://github.com/jdreetz/vpaid-generic.git"
+    "vpaid-generic": "git://github.com/jdreetz/vpaid-generic.git",
+    "array-find": "^1.0.0"
   }
 }
