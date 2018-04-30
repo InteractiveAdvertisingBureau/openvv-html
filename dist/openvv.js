@@ -1571,13 +1571,13 @@ var IntersectionObserver = function (_BaseTechnique) {
       if (entries && entries.length && entries[0].intersectionRatio !== undefined) {
         this.percentViewable = entries[0].intersectionRatio;
 
-        if (entries[0].intersectionRatio < this.criteria.inViewThreshold && this.started) {
+        if (entries[0].intersectionRatio < this.criteria.inViewThreshold && this.started && this.inView) {
           this.inView = false;
           this.listeners.outView.forEach(function (l) {
             return l();
           });
         }
-        if (entries[0].intersectionRatio >= this.criteria.inViewThreshold) {
+        if (entries[0].intersectionRatio >= this.criteria.inViewThreshold && !this.inView) {
           this.started = true;
           this.inView = true;
           this.listeners.inView.forEach(function (l) {
