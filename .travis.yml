@@ -1,0 +1,8 @@
+deploy:
+  provider: pages
+  on:
+	branch: master
+branches:
+  except:
+    - gh-pages
+	
