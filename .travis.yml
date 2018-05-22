@@ -12,7 +12,7 @@ script: grunt
 branches:
   except:
   - gh-pages
-	
+
 # Everything in bin is an artifact for distribution.
 # Only when a Pull Request against the "release" branch is MERGED this will run.
 # By default, the artifacts addon runs only on a push event, which means the merging of a PR.
