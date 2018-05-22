@@ -1,0 +1,32 @@
+# Build OM SDK JS using Node.js/NPM tools.
+language: node_js
+# Use Node.js version 8.
+node_js:
+  - "8"
+# Use npm version 5.3.0 because of https://github.com/npm/npm/issues/19393
+before_install:
+  - npm install -g npm@'5.3.0'
+# The build script tests the code and generates build artifacts.
+script: grunt
+
+# https://docs.travis-ci.com/user/environment-variables
+env:
+  global:
+    - VERSION_NUMBER="$(cat version.txt | tr -d '\n')"
+
+# Everything in bin is an artifact for distribution.
+# Only when a Pull Request against the "release" branch is MERGED this will run.
+# By default, the artifacts addon runs only on a push event, which means the merging of a PR.
+# For details, see: https://github.com/travis-ci/docs-travis-ci-com/issues/1115
+addons:
+#  chrome: stable
+#  artifacts:
+#    working_dir: bin
+#    target_paths: js/${VERSION_NUMBER}
+#    branch: release
+#    paths:
+#      - omsdk-js-${VERSION_NUMBER}.zip
+# Workaround for recent Travis issue https://github.com/travis-ci/travis-ci/issues/9024
+sudo: required
+before_script:
+  - npm install -g grunt-cli
