@@ -9,11 +9,6 @@ before_install:
 # The build script tests the code and generates build artifacts.
 script: grunt
 
-# https://docs.travis-ci.com/user/environment-variables
-env:
-  global:
-    - VERSION_NUMBER="$(cat version.txt | tr -d '\n')"
-
 branches:
   except:
   - gh-pages
