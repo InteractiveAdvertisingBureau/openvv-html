@@ -1619,8 +1619,8 @@ var IntersectionObserver = function (_BaseTechnique) {
     key: 'dispose',
     value: function dispose() {
       if (this.observer) {
-        this.observer.unobserve(element);
-        this.observer.disconnect(element);
+        this.observer.unobserve(this.element);
+        this.observer.disconnect(this.element);
       }
     }
 

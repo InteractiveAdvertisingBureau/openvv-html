@@ -46,8 +46,8 @@ export default class IntersectionObserver extends BaseTechnique {
    */
   dispose() {
     if(this.observer) {
-      this.observer.unobserve(element);
-      this.observer.disconnect(element);
+      this.observer.unobserve(this.element);
+      this.observer.disconnect(this.element);
     }
   }
 
